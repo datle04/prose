@@ -1,13 +1,194 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+// ─── Enums ───────────────────────────────────────────────
+
+enum Role {
+  USER
+  AUTHOR
+  ADMIN
+}
+
+enum NotifType {
+  LIKE
+  COMMENT
+  FOLLOW
+  REPLY
+}
+
+enum ReportType {
+  POST
+  COMMENT
+}
+
+enum ReportStatus {
+  PENDING
+  RESOLVED
+  DISMISSED
+}
+
+// ─── Models ──────────────────────────────────────────────
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  username  String   @unique
+  avatar    String?
+  bio       String?
+  role      Role     @default(USER)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  posts         Post[]
+  comments      Comment[]
+  likes         Like[]
+  bookmarks     Bookmark[]
+  notifications Notification[]
+  subscribers   Subscriber[]
+  reports       Report[]       @relation("reporter")
+  following     Follow[]       @relation("follower")
+  followers     Follow[]       @relation("following")
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  content   String
+  thumbnail String?
+  published Boolean  @default(false)
+  viewCount Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+
+  tags      Tag[]
+  images    PostImage[]
+  comments  Comment[]
+  likes     Like[]
+  bookmarks Bookmark[]
+  reports   Report[]
+
+  @@index([slug])
+  @@index([authorId])
+  @@index([published, createdAt])
+}
+
+model PostImage {
+  id     String @id @default(cuid())
+  url    String
+  order  Int
+
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+
+  post     Post    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId   String
+  author   User    @relation(fields: [authorId], references: [id])
+  authorId String
+
+  parent   Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  parentId String?
+  replies  Comment[] @relation("CommentReplies")
+
+  reports Report[]
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String
+
+  @@unique([userId, postId])
+}
+
+model Follow {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  follower    User   @relation("follower", fields: [followerId], references: [id])
+  followerId  String
+  following   User   @relation("following", fields: [followingId], references: [id])
+  followingId String
+
+  @@unique([followerId, followingId])
+}
+
+model Bookmark {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String
+
+  @@unique([userId, postId])
+}
+
+model Tag {
+  id    String @id @default(cuid())
+  name  String @unique
+  slug  String @unique
+
+  posts Post[]
+}
+
+model Notification {
+  id        String    @id @default(cuid())
+  type      NotifType
+  message   String
+  refId     String
+  isRead    Boolean   @default(false)
+  createdAt DateTime  @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  @@index([userId, isRead])
+}
+
+model Subscriber {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  subscribedAt DateTime @default(now())
+
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String?
+}
+
+model Report {
+  id        String       @id @default(cuid())
+  type      ReportType
+  targetId  String
+  reason    String
+  status    ReportStatus @default(PENDING)
+  createdAt DateTime     @default(now())
+
+  reporter   User    @relation("reporter", fields: [reporterId], references: [id])
+  reporterId String
+
+  post      Post?    @relation(fields: [postId], references: [id])
+  postId    String?
+  comment   Comment? @relation(fields: [commentId], references: [id])
+  commentId String?
 }
