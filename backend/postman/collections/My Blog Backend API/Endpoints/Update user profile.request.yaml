@@ -1,0 +1,15 @@
+$kind: http-request
+url: http://localhost:4000/api/users/profile
+method: PATCH
+body:
+  type: json
+  content: "{\r
+
+    \    \"bio\": \"Hi my name is Jane Doe\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbW5zeDQzMW0wMDAwamt3a2NuamowMzZpIiwiZW1haWwiOiJqYW5lZG9lQG1haWwuY29tIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3NzU5MTA4ODMsImV4cCI6MTc3NjUxNTY4M30.C_tx4GkFlJCeYJ_a3eL2jqgIj1-cGiZ0ytmaYpxo_MY
+order: 3402410436275148

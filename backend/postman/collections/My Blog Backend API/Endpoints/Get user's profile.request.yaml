@@ -1,0 +1,5 @@
+$kind: http-request
+name: Get user's profile
+url: http://localhost:4000/api/users/janedoe123
+method: GET
+order: 2992513160120842
