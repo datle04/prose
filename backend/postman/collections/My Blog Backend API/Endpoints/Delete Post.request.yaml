@@ -1,0 +1,8 @@
+$kind: http-request
+url: http://localhost:4000/api/posts/cmnuf21lc0001n0wk0m8sym5f
+method: DELETE
+auth:
+  type: bearer
+  credentials:
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbW5zeDQzMW0wMDAwamt3a2NuamowMzZpIiwiZW1haWwiOiJqYW5lZG9lQG1haWwuY29tIiwicm9sZSI6IkFVVEhPUiIsImlhdCI6MTc3NTkxNjUyMSwiZXhwIjoxNzc2NTIxMzIxfQ.0RIrq-cdtVkKRUCbAQstg9B3SwMpKGSnBycN-B4-Ehw
+order: 4489370926030828

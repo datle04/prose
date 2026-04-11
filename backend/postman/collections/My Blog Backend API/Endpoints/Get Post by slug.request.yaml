@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:4000/api/posts/getting-started-with-nestjs-1775916572239
+method: GET
+order: 4433728526325903

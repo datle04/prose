@@ -1,0 +1,26 @@
+$kind: http-request
+url: http://localhost:4000/api/posts
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"title\": \"Getting Started with NestJS\",\r
+
+    \  \"content\": \"NestJS is a progressive Node.js framework for building
+    efficient and scalable server-side applications. In this post, we will
+    explore the core concepts of NestJS including modules, controllers, and
+    services.\",\r
+
+    \  \"thumbnail\": \"https://picsum.photos/800/400\",\r
+
+    \  \"published\": true,\r
+
+    \  \"tagIds\": []\r
+
+    }\r\n"
+auth:
+  type: bearer
+  credentials:
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbW5zeDQzMW0wMDAwamt3a2NuamowMzZpIiwiZW1haWwiOiJqYW5lZG9lQG1haWwuY29tIiwicm9sZSI6IkFVVEhPUiIsImlhdCI6MTc3NTkxNjUyMSwiZXhwIjoxNzc2NTIxMzIxfQ.0RIrq-cdtVkKRUCbAQstg9B3SwMpKGSnBycN-B4-Ehw
+order: 3513203537871850
