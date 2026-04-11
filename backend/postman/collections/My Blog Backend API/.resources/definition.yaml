@@ -1,0 +1,8 @@
+$kind: collection
+name: 'My Blog Backend API'
+description: 'Collection generated from implemented NestJS endpoints discovered in the backend codebase.'
+variables:
+  - key: baseUrl
+    value: 'http://localhost:4000'
+  - key: token
+    value: ''
