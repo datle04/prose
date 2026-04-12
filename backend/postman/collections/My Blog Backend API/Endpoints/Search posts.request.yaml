@@ -1,0 +1,20 @@
+$kind: http-request
+url: http://localhost:4000/api/posts/search?q=updated&tag=&author=&from=&to=&page=&limit=
+method: GET
+queryParams:
+  - key: q
+    value: updated
+    description: query
+  - key: tag
+    value: ""
+  - key: author
+    value: ""
+  - key: from
+    value: ""
+  - key: to
+    value: ""
+  - key: page
+    value: ""
+  - key: limit
+    value: ""
+order: 4503599564962198
