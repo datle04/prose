@@ -1,10 +1,14 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
+import { NotificationsService } from 'src/notifications/notifications.service';
 
 @Injectable()
 export class CommentsService {
-    constructor(private prisma: PrismaService){}
+    constructor(
+        private prisma: PrismaService,
+        private notificationsService: NotificationsService,
+    ){}
 
     // GET COMMENTS
     async getComments(postId: string) {
@@ -25,24 +29,52 @@ export class CommentsService {
 
     // CREATE COMMENTS
     async create(postId: string, authorId: string, dto: CreateCommentDto){
+        // 1. Validate post
+        const post = await this.prisma.post.findUnique({
+            where: { id: postId },
+            select: { authorId: true, title: true },
+        });
+        if (!post) throw new NotFoundException('Post not found');
+
+        // 2. Validate parent (if reply case)
+        let parent: { authorId: string } | null = null;
+
         if (dto.parentId) {
-            const parent = await this.prisma.comment.findUnique({
+                parent = await this.prisma.comment.findUnique({
                 where: { id: dto.parentId },
+                select: { authorId: true },
             });
-            if(!parent) throw new NotFoundException('Parent comment not found');
+            if (!parent) throw new NotFoundException('Parent comment not found');
+        }
+
+        // 3. create comment
+        const comment = await this.prisma.comment.create({
+            data: { content: dto.content, postId, authorId, parentId: dto.parentId },
+            include: {
+                author: { select: { id: true, name: true, username: true, avatar: true } },
+            },
+        });
+
+        // 4. Create notification
+        if (post.authorId !== authorId) {
+            await this.notificationsService.create(
+                post.authorId,
+                'COMMENT',
+                `Someone commented on your post "${post.title}"`,
+                postId,
+            );
+        }
+
+        if (parent && parent.authorId !== authorId) {
+            await this.notificationsService.create(
+                parent.authorId,
+                'REPLY',
+                'Someone replied to your comment',
+                dto.parentId!,
+            );
         };
 
-        return this.prisma.comment.create({
-            data: {
-                content: dto.content,
-                postId,
-                authorId,
-                parentId: dto.parentId,
-            },
-            include: {
-                author: { select: {id: true, name: true, username: true, avatar: true } },
-            }
-        });
+     return comment;
     };
 
     // REMOVE COMMENTS

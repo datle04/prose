@@ -1,10 +1,14 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { NotificationsService } from 'src/notifications/notifications.service';
 
 @Injectable()
 export class UsersService {
-    constructor(private prisma: PrismaService) {}
+    constructor(
+        private prisma: PrismaService,
+        private notificationsService: NotificationsService
+    ) {}
 
     async getProfile(username: string) {
         const user = await this.prisma.user.findUnique({
@@ -74,6 +78,14 @@ export class UsersService {
         await this.prisma.follow.create({
             data: { followerId, followingId: target.id },
         });
+
+        // Create Notification
+        await this.notificationsService.create(
+            target.id,
+            'FOLLOW',
+            `Someone started following you`,
+            followerId,
+        )
 
         return { followed: true };
     };

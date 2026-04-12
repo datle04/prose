@@ -3,10 +3,14 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import slugify from 'slugify';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { NotificationsService } from '../notifications/notifications.service';
 
 @Injectable()
 export class PostsService {
-    constructor(private prisma: PrismaService){}
+    constructor(
+        private prisma: PrismaService,
+        private notificationsService: NotificationsService,
+    ){}
 
     // GENERATE SLUG
     private generateSlug(title: string): string {
@@ -143,6 +147,21 @@ export class PostsService {
         };
 
         await this.prisma.like.create({ data: {userId, postId } });
+
+        // Create notification
+        const post = await this.prisma.post.findUnique({
+            where: { id: postId },
+            select: { authorId: true, title: true },
+        });
+
+        if(post && post.authorId !== userId) {
+            await this.notificationsService.create(
+                post.authorId,
+                'LIKE',
+                `Someone liked your post "${post.title}"`,
+                postId,
+            );
+        }
 
         return { liked: true };
     };
