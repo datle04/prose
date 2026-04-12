@@ -20,6 +20,20 @@ export class PostsController {
         return this.postsService.findAll(+page, +limit);
     };
 
+    // SEARCH
+    @Get('search')
+    search(
+        @Query('q') q?: string,
+        @Query('tag') tag?: string,
+        @Query('author') author?: string,
+        @Query('from') from?: string,
+        @Query('to') to?: string,
+        @Query('page') page: string = '1',
+        @Query('limit') limit: string = '10',
+    ){
+        return this.postsService.search({ q, tag, author, from, to, page: +page, limit: +limit });
+    };
+
     // GET POST BY SLUG
     @Get(':slug')
     findBySlug(@Param('slug') slug: string) {

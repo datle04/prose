@@ -184,4 +184,61 @@ export class PostsService {
 
         return { bookmarked: true };
     }
+
+    // SEARCH
+    async search(query: {
+        q?: string;
+        tag?: string;
+        author?: string;
+        from?: string;
+        to?: string;
+        page?: number;
+        limit?: number;
+    }){
+        const { q, tag, author, from, to } = query;
+        const page = Number(query.page) || 1;
+        const limit = Number(query.limit) || 10;
+
+        const skip = (page - 1) * limit;
+
+        const where: any = {
+            published: true,
+            ...(q && {
+                OR: [
+                    { title: { contains: q, mode: 'insensitive' } },
+                    { content: { contains: q, mode: 'insensitive' } },
+                ],
+            }),
+            ...(tag && { tags: { some: { slug: tag } } }),
+            ...(author && { author: { username: author } }),
+            ...(from || to
+                ? {
+                    createdAt: {
+                        ...(from && { gte: new Date(from) }),
+                        ...(to && { lte: new Date(to) }),
+                    },
+                }
+                : {}),
+        };
+
+        const [posts, total] = await Promise.all([
+            this.prisma.post.findMany({
+                where,
+                skip,
+                take: limit,
+                orderBy: { createdAt: 'desc' },
+                include: {
+                    author: { select: { id: true, name: true, username: true, avatar: true } },
+                    tags: true,
+                    _count: { select: { likes: true, comments: true } },
+                },
+            }),
+            this.prisma.post.count({ where }),
+        ]);
+
+        return {
+            posts,
+            meta: { total, page, limit, totalPages: Math.ceil(total / limit) },
+        }
+    };
 }
