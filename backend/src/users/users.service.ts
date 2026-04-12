@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 
@@ -43,5 +43,38 @@ export class UsersService {
                 bio: true,
             },
         });
-    }
+    };
+
+    // TOGGLE FOLLOW
+    async toggleFollow(followerId: string, username: string){
+        const target = await this.prisma.user.findUnique({
+            where: { username },
+        });
+
+        if(!target) throw new NotFoundException('User not found');
+
+        if(target.id === followerId) throw new ForbiddenException('You cannot follow yourself');
+
+        const existing = await this.prisma.follow.findUnique({
+            where: {
+                followerId_followingId: { followerId, followingId: target.id },
+            },
+        });
+
+        if (existing) {
+            await this.prisma.follow.delete({
+                where: {
+                    followerId_followingId: { followerId, followingId: target.id },
+                },
+            });
+
+            return { followed: false };
+        };
+
+        await this.prisma.follow.create({
+            data: { followerId, followingId: target.id },
+        });
+
+        return { followed: true };
+    };
 }

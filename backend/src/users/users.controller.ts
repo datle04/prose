@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
@@ -20,5 +20,14 @@ export class UsersController {
         @Body() dto: UpdateProfileDto,
     ) {
         return this.usersService.updateProfile(user.id, dto);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post(':username/follow')
+    toggleFollow(
+        @Param('username') username: string,
+        @CurrentUser() user: { id: string },
+    ) {
+        return this.usersService.toggleFollow(user.id, username);
     }
 }
