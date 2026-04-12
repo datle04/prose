@@ -1,0 +1,5 @@
+$kind: http-request
+name: Get all Post's Comments
+url: http://localhost:4000/api/posts/cmnuevhqr0000n0wkb6mi8v7b/comments
+method: GET
+order: 4503593531703073
