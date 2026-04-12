@@ -6,11 +6,11 @@ body:
   type: json
   content: "{\r
 
-    \    \"email\": \"janedoe@mail.com\",\r
+    \    \"email\": \"dat@mail.com\",\r
 
-    \    \"name\": \"Jane Doe\",\r
+    \    \"name\": \"le tan dat\",\r
 
-    \    \"username\": \"janedoe123\",\r
+    \    \"username\": \"datle04\",\r
 
     \    \"password\": \"123456\"\r
 
