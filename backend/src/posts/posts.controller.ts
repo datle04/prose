@@ -68,4 +68,24 @@ export class PostsController {
     ) {
         return this.postsService.togglePublish(id, user.id);
     }
+
+    // TOGGLE LIKE
+    @UseGuards(JwtAuthGuard)
+    @Post(':id/like')
+    toggleLike(
+        @Param('id') id: string,
+        @CurrentUser() user: { id: string },
+    ) {
+        return this.postsService.toggleLike(id, user.id);
+    }
+
+    // TOGGLE BOOKMARK
+    @UseGuards(JwtAuthGuard)
+    @Post(':id/bookmark')
+    toggleBookmark(
+        @Param('id') id: string,
+        @CurrentUser() user: { id: string },
+    ) {
+        return this.postsService.toggleBookmark(id, user.id);
+    }
 }

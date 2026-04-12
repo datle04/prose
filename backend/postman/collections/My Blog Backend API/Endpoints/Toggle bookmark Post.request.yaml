@@ -1,0 +1,11 @@
+$kind: http-request
+url: http://localhost:4000/api/posts/cmnuf54gd0000uowk2ianasg5/bookmark
+method: POST
+body:
+  type: json
+  content: ""
+auth:
+  type: bearer
+  credentials:
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbW52OWU2ZGwwMDAwcTh3azJseG1mYnVyIiwiZW1haWwiOiJkYXRAbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc3NTk2Nzg0NCwiZXhwIjoxNzc2NTcyNjQ0fQ.82M5IMKsftpkX-Gi-O_vxQXxM3UpDdbIqKC1Mw05wjo
+order: 4503400635361812

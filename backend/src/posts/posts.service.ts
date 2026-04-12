@@ -127,4 +127,42 @@ export class PostsService {
             data: { published: !post.published },
         });
     };
+
+    // TOGGLE LIKE
+    async toggleLike(postId: string, userId: string){
+        const existing = await this.prisma.like.findUnique({
+            where: { userId_postId: { userId, postId } },
+        });
+
+        if (existing) {
+            await this.prisma.like.delete({
+                where: { userId_postId: { userId, postId } },
+            });
+
+            return { liked: false };
+        };
+
+        await this.prisma.like.create({ data: {userId, postId } });
+
+        return { liked: true };
+    };
+
+    // TOGGLE BOOKMARK
+    async toggleBookmark(postId: string, userId: string) {
+        const existing = await this.prisma.bookmark.findUnique({
+            where: { userId_postId: { userId, postId } },
+        });
+
+        if(existing) {
+            await this.prisma.bookmark.delete({
+                where: { userId_postId: { userId, postId } },
+            });
+            
+            return { bookmarked: false };
+        };
+
+        await this.prisma.bookmark.create({ data: { userId, postId } });
+
+        return { bookmarked: true };
+    }
 }
