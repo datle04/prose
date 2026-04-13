@@ -79,6 +79,19 @@ export class UsersService {
             data: { followerId, followingId: target.id },
         });
 
+        // Gọi n8n webhook
+        const webhookUrl = process.env.N8N_FOLLOW_WEBHOOK_URL;
+        if (webhookUrl) {
+            await fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                recipientEmail: target.email,
+                message: `${target.name}, you have a new follower!`,
+                }),
+            }).catch((err) => console.error('n8n webhook error:', err));
+        }
+
         // Create Notification
         await this.notificationsService.create(
             target.id,
