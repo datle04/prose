@@ -1,0 +1,17 @@
+$kind: http-request
+url: http://localhost:4000/api/upload/image
+method: POST
+body:
+  type: formdata
+  content:
+    - type: file
+      key: file
+      src:
+        - postman-cloud:///1f13675d-fbac-4970-a9f4-2fe0339548db
+      description: ""
+      disabled: false
+auth:
+  type: bearer
+  credentials:
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbW5zeDQzMW0wMDAwamt3a2NuamowMzZpIiwiZW1haWwiOiJqYW5lZG9lQG1haWwuY29tIiwicm9sZSI6IkFVVEhPUiIsImlhdCI6MTc3NjAwMTI3OCwiZXhwIjoxNzc2NjA2MDc4fQ.8U9Er25FbsyGpJBU-8_UffbSTlUpBZu5q1sJyEz8h0o
+order: 4503599593215681
