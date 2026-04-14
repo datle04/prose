@@ -1,0 +1,19 @@
+$kind: http-request
+url: http://localhost:4000/api/reports
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"type\": \"POST\",\r
+
+    \    \"targetId\": \"cmnvr97on000774wknj4zuv7s\",\r
+
+    \    \"reason\": \"Spreading misinformation\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbW52OWU2ZGwwMDAwcTh3azJseG1mYnVyIiwiZW1haWwiOiJsZGF0MDkwOUBnbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc3NjE1MTg3NiwiZXhwIjoxNzc2NzU2Njc2fQ.hpIDeeifLo0WGctAT9TOcppSkZ3dFliOVTHOr2R6t6k
+order: 4503599621381857

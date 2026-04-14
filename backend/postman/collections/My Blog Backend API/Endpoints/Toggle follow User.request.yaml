@@ -1,5 +1,6 @@
 $kind: http-request
-url: http://localhost:4000/api/users/janedoe123/follow
+name: Toggle follow User
+url: http://localhost:4000/api/users/datle04/follow
 method: POST
 body:
   type: json
@@ -7,5 +8,5 @@ body:
 auth:
   type: bearer
   credentials:
-    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbW52OWU2ZGwwMDAwcTh3azJseG1mYnVyIiwiZW1haWwiOiJkYXRAbWFpbC5jb20iLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc3NTk3MTg3OSwiZXhwIjoxNzc2NTc2Njc5fQ.fClvUoh008BG6QC1lVCEP_yp9YW7Ax8gTji6xD4oq1s
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbW5zeDQzMW0wMDAwamt3a2NuamowMzZpIiwiZW1haWwiOiJqYW5lZG9lQG1haWwuY29tIiwicm9sZSI6IkFVVEhPUiIsImlhdCI6MTc3NjA2MDQ5OCwiZXhwIjoxNzc2NjY1Mjk4fQ.QNFmJyuNNqpVAqoz4kbbDKm52iVenz3U09tfsE1yNrs
 order: 4503573682937755

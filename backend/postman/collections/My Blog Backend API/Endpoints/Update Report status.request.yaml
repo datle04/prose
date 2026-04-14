@@ -1,0 +1,15 @@
+$kind: http-request
+url: http://localhost:4000/api/reports/cmnyb4aea00003wwkp8u7c59v/status
+method: PATCH
+body:
+  type: json
+  content: "{\r
+
+    \    \"status\": \"RESOLVED\"\r
+
+    }"
+auth:
+  type: bearer
+  credentials:
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbW55YXJyMm8wMDAwMDR3azEzMnNpeHpoIiwiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc3NjE1MTcyOCwiZXhwIjoxNzc2NzU2NTI4fQ.rXK4Aee9LXYXh_5DAdoqDJ8g-BJ_wp1mZL_XiPNrdx8
+order: 4503599622281242

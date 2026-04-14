@@ -1,0 +1,11 @@
+$kind: http-request
+url: http://localhost:4000/api/admin/users/cmnvr97d8000574wk4uibzn2w/ban
+method: PATCH
+body:
+  type: json
+  content: ""
+auth:
+  type: bearer
+  credentials:
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbW55YXJyMm8wMDAwMDR3azEzMnNpeHpoIiwiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc3NjE1NjI3NCwiZXhwIjoxNzc2NzYxMDc0fQ.yfzdOpW2GNGMYUAo-P9uSoT__P6feeoWfJYSWV3QhNU
+order: 4503599627368037
