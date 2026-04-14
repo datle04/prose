@@ -13,6 +13,7 @@ import { AdminModule } from './admin/admin.module';
 import { ReportsModule } from './reports/reports.module';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { SubscribersModule } from './subscribers/subscribers.module';
 
 @Module({
   imports: [
@@ -26,10 +27,12 @@ import { APP_GUARD } from '@nestjs/core';
     UploadModule,
     AdminModule,
     ReportsModule,
+    SubscribersModule,
     ThrottlerModule.forRoot([{
       ttl: 60000,
       limit: 60,
-    }])
+    }]),
+    SubscribersModule
   ],
   controllers: [AppController],
   providers: [

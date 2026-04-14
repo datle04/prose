@@ -1,4 +1,5 @@
 $kind: http-request
+name: Create Post
 url: http://localhost:4000/api/posts
 method: POST
 body:
@@ -14,7 +15,7 @@ body:
 
     \  \"thumbnail\": \"https://picsum.photos/800/400\",\r
 
-    \  \"published\": true,\r
+    \  \"published\": false,\r
 
     \  \"tagIds\": []\r
 
@@ -22,5 +23,5 @@ body:
 auth:
   type: bearer
   credentials:
-    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbW5zeDQzMW0wMDAwamt3a2NuamowMzZpIiwiZW1haWwiOiJqYW5lZG9lQG1haWwuY29tIiwicm9sZSI6IkFVVEhPUiIsImlhdCI6MTc3NTkxNjUyMSwiZXhwIjoxNzc2NTIxMzIxfQ.0RIrq-cdtVkKRUCbAQstg9B3SwMpKGSnBycN-B4-Ehw
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbW5zeDQzMW0wMDAwamt3a2NuamowMzZpIiwiZW1haWwiOiJqYW5lZG9lQG1haWwuY29tIiwicm9sZSI6IkFVVEhPUiIsImlhdCI6MTc3NjE2Nzg2MSwiZXhwIjoxNzc2NzcyNjYxfQ.PWSSHjaeKY5O22HN5kMzPC9hKelhePKldtf7wOaxheY
 order: 3513203537871850

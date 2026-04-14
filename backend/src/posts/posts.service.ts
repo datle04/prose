@@ -4,6 +4,7 @@ import slugify from 'slugify';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { NotificationsService } from '../notifications/notifications.service';
+import { Resend } from 'resend';
 
 @Injectable()
 export class PostsService {
@@ -159,14 +160,36 @@ export class PostsService {
     async togglePublish(postId: string, userId: string) {
         const post = await this.prisma.post.findUnique({ where: { id: postId } });
 
-        if(!post) throw new NotFoundException('Post not found');
-        if(post.authorId !== userId) throw new ForbiddenException('You can only publish your own posts');
+        if (!post) throw new NotFoundException('Post not found');
+        if (post.authorId !== userId) throw new ForbiddenException('You can only publish your own posts');
 
-        return this.prisma.post.update({
+        const updated = await this.prisma.post.update({
             where: { id: postId },
             data: { published: !post.published },
+            include: { author: { select: { name: true } } },
         });
-    };
+
+        // Gửi email cho subscribers khi publish
+        if (updated.published) {
+            const subscribers = await this.prisma.subscriber.findMany({
+                select: { email: true },
+            });
+
+            if (subscribers.length > 0) {
+                const resend = new Resend(process.env.RESEND_API_KEY);
+                const emails = subscribers.map((s) => s.email);
+
+                resend.emails.send({
+                    from: 'onboarding@resend.dev',
+                    to: emails,
+                    subject: `New post: ${updated.title}`,
+                    html: `<p><strong>${updated.author.name}</strong> just published a new post: <strong>${updated.title}</strong></p>`,
+                }).catch((err) => console.error('Resend error:', err));
+            }
+        }
+
+        return updated;
+    }
 
     // TOGGLE LIKE
     async toggleLike(postId: string, userId: string){

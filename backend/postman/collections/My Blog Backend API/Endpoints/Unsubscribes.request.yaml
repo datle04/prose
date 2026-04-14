@@ -1,0 +1,10 @@
+$kind: http-request
+name: Unsubscribes
+url: http://localhost:4000/api/subscribers?email=ldat0909@gmail.com
+method: DELETE
+queryParams:
+  email: ldat0909@gmail.com
+body:
+  type: json
+  content: ""
+order: 4503599627370412

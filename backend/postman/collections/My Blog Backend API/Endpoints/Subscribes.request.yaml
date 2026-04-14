@@ -1,0 +1,12 @@
+$kind: http-request
+name: Subscribes
+url: http://localhost:4000/api/subscribers
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"email\": \"ldat0909@gmail.com\"\r
+
+    }"
+order: 4503599627369133

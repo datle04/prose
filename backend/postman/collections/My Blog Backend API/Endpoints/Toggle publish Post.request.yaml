@@ -1,6 +1,6 @@
 $kind: http-request
 name: Toggle publish Post
-url: http://localhost:4000/api/posts/cmnuf54gd0000uowk2ianasg5/publish
+url: http://localhost:4000/api/posts/cmnykhzn40001fcwkjcqlb1wo/publish
 method: POST
 body:
   type: json
@@ -8,5 +8,5 @@ body:
 auth:
   type: bearer
   credentials:
-    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbW5zeDQzMW0wMDAwamt3a2NuamowMzZpIiwiZW1haWwiOiJqYW5lZG9lQG1haWwuY29tIiwicm9sZSI6IkFVVEhPUiIsImlhdCI6MTc3NTkxNjUyMSwiZXhwIjoxNzc2NTIxMzIxfQ.0RIrq-cdtVkKRUCbAQstg9B3SwMpKGSnBycN-B4-Ehw
+    token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbW5zeDQzMW0wMDAwamt3a2NuamowMzZpIiwiZW1haWwiOiJqYW5lZG9lQG1haWwuY29tIiwicm9sZSI6IkFVVEhPUiIsImlhdCI6MTc3NjE2Nzg2MSwiZXhwIjoxNzc2NzcyNjYxfQ.PWSSHjaeKY5O22HN5kMzPC9hKelhePKldtf7wOaxheY
 order: 4502835971110329
