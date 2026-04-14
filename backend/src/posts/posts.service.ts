@@ -62,6 +62,42 @@ export class PostsService {
         };
     };
 
+    // GET FOLLOWING FEED
+    async getFeed(userId: string, page: number = 1, limit: number = 10) {
+        const skip = (page - 1) * limit;
+
+        // Lấy danh sách người đang follow
+        const following = await this.prisma.follow.findMany({
+            where: { followerId: userId },
+            select: { followingId: true },
+        });
+
+        const followingIds = following.map((f) => f.followingId);
+
+        const [posts, total] = await Promise.all([
+            this.prisma.post.findMany({
+                where: { published: true, authorId: { in: followingIds } },
+                orderBy: { createdAt: 'desc' },
+                skip,
+                take: limit,
+                include: {
+                    author: { select: { id: true, name: true, username: true, avatar: true } },
+                    tags: true,
+                    _count: { select: { likes: true, comments: true } },
+                },
+            }),
+            this.prisma.post.count({
+                where: { published: true, authorId: { in: followingIds } },
+            }),
+        ]);
+
+        return {
+            posts,
+            meta: { total, page, limit, totalPages: Math.ceil(total / limit) },
+        };
+    }
+
+
     // GET POST BY SLUG
     async finndBySlug(slug: string) {
         const post = await this.prisma.post.findUnique({

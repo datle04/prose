@@ -34,6 +34,17 @@ export class PostsController {
         return this.postsService.search({ q, tag, author, from, to, page: +page, limit: +limit });
     };
 
+    // GET FOLLOWING FEED
+    @UseGuards(JwtAuthGuard)
+    @Get('feed')
+    getFeed(
+        @CurrentUser() user: { id: string },
+        @Query('page') page: string = '1',
+        @Query('limit') limit: string = '10',
+    ) {
+        return this.postsService.getFeed(user.id, +page, +limit);
+    }
+
     // GET POST BY SLUG
     @Get(':slug')
     findBySlug(@Param('slug') slug: string) {
