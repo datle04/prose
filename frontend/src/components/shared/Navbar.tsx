@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useAuthStore } from '@/stores/auth.store';
 import { useRouter } from 'next/navigation';
+import NotificationBell from './NotificationBell';
 
 export default function Navbar() {
     const { user, clearAuth } = useAuthStore();
@@ -41,6 +42,7 @@ export default function Navbar() {
                                     Admin
                                 </Link>
                             )}
+                            {user && <NotificationBell />}
                             <Link
                                 href={`/profile/${user.username}`}
                                 className="text-sm font-medium hover:text-primary transition-colors"
