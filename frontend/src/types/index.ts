@@ -6,6 +6,7 @@ export interface User {
     avatar?: string;
     bio?: string;
     role: 'USER' | 'AUTHOR' | 'ADMIN';
+    isFollowing?: boolean;
     createdAt: string;
     _count?: {
         posts: number;
