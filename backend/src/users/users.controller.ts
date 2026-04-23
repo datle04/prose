@@ -3,15 +3,17 @@ import { UsersService } from './users.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { OptionalJwtGuard } from 'src/auth/guards/optional-jwt.guard';
 
 @Controller('users')
 export class UsersController {
     constructor(private usersService: UsersService) {}
 
-    @Get(':username')
-    getProfile(@Param('username') username: string){
-        return this.usersService.getProfile(username);
-    };
+    @Get(':username/profile')
+    @UseGuards(OptionalJwtGuard)
+    getProfile(@Param('username') username: string, @CurrentUser() user: any) {
+        return this.usersService.getProfile(username, user?.id);
+    }
 
     @UseGuards(JwtAuthGuard)
     @Patch('profile')
