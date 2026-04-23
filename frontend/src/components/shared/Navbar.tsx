@@ -44,6 +44,12 @@ export default function Navbar() {
                             )}
                             {user && <NotificationBell />}
                             <Link
+                                href="/feed"
+                                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                            >
+                                Feed
+                            </Link>
+                            <Link
                                 href={`/profile/${user.username}`}
                                 className="text-sm font-medium hover:text-primary transition-colors"
                             >
