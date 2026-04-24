@@ -98,6 +98,15 @@ export class PostsService {
         };
     }
 
+    // GET POST BY ID
+    async findById(postId: string) {
+        const post = await this.prisma.post.findUnique({
+            where: { id: postId },
+            include: { tags: true },
+        });
+        if (!post) throw new NotFoundException('Post not found');
+        return post;
+    }
 
     // GET POST BY SLUG
     async finndBySlug(slug: string) {
