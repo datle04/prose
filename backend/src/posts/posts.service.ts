@@ -120,6 +120,19 @@ export class PostsService {
         return post;
     };
 
+    // GET MY POSTS
+    async getMyPosts(authorId: string) {
+        return this.prisma.post.findMany({
+            where: { authorId },
+            orderBy: { createdAt: 'desc' },
+            include: {
+                tags: true,
+                _count: { select: { likes: true, comments: true } },
+            },
+        });
+    }
+
+
     // UPDATE POST
     async update(postId: string, userId: string, role: string, dto: UpdatePostDto){
         const post = await this.prisma.post.findUnique({ where: { id: postId } });
