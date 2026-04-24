@@ -51,6 +51,13 @@ export class PostsController {
     getMyPosts(@CurrentUser() user: { id: string }) {
         return this.postsService.getMyPosts(user.id);
     }
+    
+    // GET POST BY ID
+    @UseGuards(JwtAuthGuard)
+    @Get('id/:id')
+    findById(@Param('id') id: string) {
+        return this.postsService.findById(id);
+    }
 
     // GET POST BY SLUG
     @Get(':slug')
